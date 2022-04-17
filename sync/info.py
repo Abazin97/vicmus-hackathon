@@ -1,13 +1,13 @@
 
 
 
-
 class Exhibit:
     '''
     Класс экспозиции, содержащий текстовую и звуковую информацию на русском и 
     английском языке, а также её фото
     '''
     path = r'\media'
+    
     
     def __init__(self, name, ru_txt, en_txt, ru_sound, en_sound, photo):
         '''
