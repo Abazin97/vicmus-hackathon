@@ -4,9 +4,6 @@ from config import bot
 from info import phr
 from time import sleep
 
-bot.send_voice
-n = ''
-#bot.send_photo
 
 @bot.message_handler(commands=['start'])
 def start(msg):
@@ -15,21 +12,19 @@ def start(msg):
     
 @bot.message_handler(commands=['stop_polling'])
 def stop(msg):
-    global n
     kbd = types.InlineKeyboardMarkup()
     kbd.add(types.InlineKeyboardButton(text='Да', callback_data='y'))
     kbd.add(types.InlineKeyboardButton(text='Отмена', callback_data='n'))
-    t = bot.reply_to(msg, 'Остановить бота?', reply_markup = kbd)
-    print(t)
-    n = t
+    bot.reply_to(msg, 'Остановить бота?', reply_markup = kbd)
+
     
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
     if call.data == "y":
-        bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=None)
+        bot.stop_bot()
     elif call.data == "n":
-        bot.send_message(call.message.chat.id, 'Kk')
+        bot.send_message(call.message.chat.id, 'Ok')
 
 
 
@@ -37,7 +32,7 @@ def callback_worker(call):
 if __name__ == '__main__':
     while True:
         try:
-
+            print('Новый запуск бота.')
             bot.polling(none_stop=True)
         except Exception as err:
             print('Произошла ошибка: {}'.format(err))
